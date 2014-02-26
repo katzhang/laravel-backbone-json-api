@@ -58,6 +58,7 @@ return array(
 			'database'  => 'database',
 			'username'  => 'root',
 			'password'  => '',
+			'unix_socket'  => '/tmp/mysql.sock',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',
