@@ -1,17 +1,22 @@
 <?php
-
-class CommentsController extends BaseController {
+//use our new namespace
+namespace V1;
+ 
+//import classes that are not in this new namespace
+use BaseController;
+ 
+class PostsController extends BaseController {
 
     /**
-     * Comments Repository
+     * Posts Repository
      *
-     * @var Comments
+     * @var Posts
      */
-    protected $comments;
+    protected $posts;
 
-    public function __construct(Comments $comments)
+    public function __construct(Posts $posts)
     {
-        $this->comments = $comments;
+        $this->posts = $posts;
     }
 
     /**
@@ -21,14 +26,14 @@ class CommentsController extends BaseController {
      */
     public function index()
     {
-        $comments = Comments::all();
+        $posts = Posts::all();
 
-        if (empty($comments))
+        if (empty($posts))
         {
-            return Response::json(array('error' => 'comments_not_found'), 404);
+            return Response::json(array('error' => 'posts_not_found'), 404);
         }
 
-        return Response::json($comments, 200);
+        return Response::json($posts, 200);
     }
 
     /**
@@ -49,13 +54,13 @@ class CommentsController extends BaseController {
     public function store()
     {
         $input = Input::all();
-        $validation = Validator::make($input, Comments::$rules);
+        $validation = Validator::make($input, Posts::$rules);
 
         if ($validation->passes())
         {
-            $comments = $this->comments->create($input);
+            $posts = $this->posts->create($input);
 
-            return Response::json($comments, 201);
+            return Response::json($posts, 201);
         }
 
         return Response::json($validation, 400);
@@ -69,14 +74,14 @@ class CommentsController extends BaseController {
      */
     public function show($id)
     {
-        $comments = Comments::where('id', $id)->first();
+        $posts = Posts::where('id', $id)->first();
 
-        if (empty($comments))
+        if (empty($posts))
         {
-            return Response::json(array('error' => 'comments_not_found'), 404);
+            return Response::json(array('error' => 'posts_not_found'), 404);
         }
 
-        return Response::json($comments, 200);
+        return Response::json($posts, 200);
     }
 
     /**
@@ -99,20 +104,20 @@ class CommentsController extends BaseController {
     public function update($id)
     {
         $input = array_except(Input::all(), '_method');
-        $validation = Validator::make($input, Comments::$rules);
+        $validation = Validator::make($input, Posts::$rules);
 
         if ($validation->passes())
         {
-            $comments = $this->comments->find($id);
+            $posts = $this->posts->find($id);
 
-            if (empty($comments))
+            if (empty($posts))
             {
-                return Response::json(array('error' => 'comments_not_found'), 404);
+                return Response::json(array('error' => 'posts_not_found'), 404);
             }
 
-            $comments->update($input);
+            $posts->update($input);
 
-            return Response::json($comments, 200);
+            return Response::json($posts, 200);
         }
 
         return Response::json($validation, 400);
@@ -126,14 +131,14 @@ class CommentsController extends BaseController {
      */
     public function destroy($id)
     {
-        $comments = Comments::where('id', $id)->first();
+        $posts = Posts::where('id', $id)->first();
 
-        if (empty($comments))
+        if (empty($posts))
         {
-            return Response::json(array('error' => 'comments_not_found'), 404);
+            return Response::json(array('error' => 'posts_not_found'), 404);
         }
 
-        $comments->delete();
+        $posts->delete();
 
         return Response::json(array('success'), 200);
     }
